@@ -173,7 +173,7 @@ def rotate_hosts():
 	while True:
 		retry_cnt = 0
                 while retry_cnt < 6:
-                	if retry_cnt == 5:
+                	if retry_cnt >= 5:
                         	error("giving up...")
                                 cleanup("foo", "bar")
                         try:
@@ -187,7 +187,7 @@ def rotate_hosts():
 		
 		retry_cnt = 0
                 while retry_cnt < 6:
-                        if retry_cnt == 5:
+                        if retry_cnt >= 5:
                                 error("giving up...")
                                 cleanup("foo", "bar")
                         try:
@@ -207,7 +207,7 @@ def rotate_hosts():
 				# Connect to EC2 and return list of reservations
                                 retry_cnt = 0
                                 while retry_cnt < 6:
-					if retry_cnt == 5:
+					if retry_cnt >= 5:
 						error("giving up...")
 						cleanup("foo", "bar")
                                 	try:
@@ -220,7 +220,7 @@ def rotate_hosts():
 				
                                 retry_cnt = 0
                                 while retry_cnt < 6:
-                                        if retry_cnt == 5:
+                                        if retry_cnt >= 5:
                                                 error("giving up...")
                                                 cleanup("foo", "bar")
                                         try: 
@@ -403,7 +403,7 @@ def rotate_hosts():
 						time.sleep(1+int(retry_cnt))
                                         else:
                                                 retry_cnt = 6 # probably a better way to do this
-                                        if retry_cnt == 5:
+                                        if retry_cnt >= 5:
                                                 error("Giving up...")
 						cleanup("foo", "bar")
 	
@@ -419,8 +419,7 @@ def rotate_hosts():
 						time.sleep(1+int(retry_cnt))
 					else:
 						retry_cnt = 6 # probably a better way to do this
-					if retry_cnt == 5:
-						raw_input("Pausing to investigate")
+					if retry_cnt >= 5:
 						error("Giving up...")
 						cleanup("foo", "bar")
 
@@ -436,7 +435,7 @@ def rotate_hosts():
                                                 time.sleep(1+int(retry_cnt))
                                         else:
                                                 retry_cnt = 6 # probably a better way to do this
-                                        if retry_cnt == 5:
+                                        if retry_cnt >= 5:
                                                 error("Giving up...")
 						cleanup("foo", "bar")
 				
@@ -736,7 +735,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                 	cleanup("foo", "bar")
 	
@@ -752,7 +751,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 
@@ -768,7 +767,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 
@@ -784,7 +783,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")	
 	
@@ -800,7 +799,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")	
 
@@ -816,7 +815,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 	
@@ -832,7 +831,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 	
@@ -848,7 +847,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 	
@@ -864,7 +863,7 @@ for host in allInstances:
                         time.sleep(1)
                 else:
                         retry_cnt = 6 # probably a better way to do this
-                if retry_cnt == 5:
+                if retry_cnt >= 5:
 			error("Giving up...")
                         cleanup("foo", "bar")
 	
