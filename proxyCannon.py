@@ -652,7 +652,6 @@ elif args.num_of_instances > 20:
 	warning("Woah there stallion, that's alot of instances, hope you got that sweet license from Amazon.")
 
 if args.slack_channel:
-	print("defined a slack channel %s" % args.slack_channel)
 	if os.path.isfile("slack.config"):
 		with open("slack.config") as f:
 			slack_url = f.readline().rstrip()
