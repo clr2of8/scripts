@@ -29,6 +29,7 @@ import signal
 import datetime
 import re
 from subprocess import Popen, PIPE, STDOUT
+import requests
 
 #############################################################################################
 # Handle Colored Output
@@ -68,6 +69,13 @@ def log(msg):
 	logfile.write("\n")
 	logfile.close()
 
+	if args.slack_channel:
+        	payload = '{"channel": "%s", "username": "%s", "text": "log: %s: %s", "icon_emoji": "%s"}' % (args.slack_channel, slack_un, timestamp, msg, slack_icon)
+       		headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+        	r = requests.post(slack_url, data=payload, headers=headers)
+
+	
+
 
 #############################################################################################
 # Handle SigTerm & Clean up
@@ -76,6 +84,9 @@ def cleanup(signal, frame):
 	# Time to clean up
 	print "\n"
 	success("Roger that! Shutting down...")
+
+	#kill ssh tunnels to our machine so your true IP does not get revealed after an unexpected shutdown
+        os.system("lsof -i tcp:22 | grep ESTABLISHED | awk '{print $2}' | xargs kill")
 
 	if args.v:
 		print 'In debug mode. Press enter to continue.'
@@ -503,6 +514,7 @@ parser.add_argument('num_of_instances', type=int, help="The number of amazon ins
 parser.add_argument('--name', nargs="?", help="Set the name of the instance in the cluster")
 parser.add_argument('-i', '--interface', nargs='?', default='eth0', help="Interface to use, default is eth0")
 parser.add_argument('-l', '--log', action='store_true', help="Enable logging of WAN IP's traffic is routed through. Output is to /tmp/")
+parser.add_argument('-s', '--slack-channel', help="Reads Slack config from slack.config in same directory and writes log messages to the specified slack channel.")
 args = parser.parse_args()
 
 # system variables;
@@ -607,7 +619,6 @@ defaultgateway = get_default_gateway_linux()
 debug("IP address of default gateway: " + defaultgateway)
 
 debug("Opening logfile: /tmp/" + logName)
-log("Proxy Cannon Started.")
 
 # Define SigTerm Handler
 signal.signal(signal.SIGINT, cleanup)
@@ -640,6 +651,15 @@ if args.num_of_instances < 1:
 elif args.num_of_instances > 20:
 	warning("Woah there stallion, that's alot of instances, hope you got that sweet license from Amazon.")
 
+if args.slack_channel:
+	print("defined a slack channel %s" % args.slack_channel)
+	if os.path.isfile("slack.config"):
+		with open("slack.config") as f:
+			slack_url = f.readline().rstrip()
+			slack_un = f.readline().rstrip()
+			slack_icon = f.readline().rstrip()
+
+
 # Display Warning
 print "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 print "+ This script will clear out any existing iptable and routing rules. +"
@@ -648,6 +668,8 @@ warning("Would you like to continue y/[N]: ")
 confirm = raw_input()
 if confirm.lower() != "y":
 	exit("Yeah you're right its probably better to play it safe.")
+
+log("Proxy Cannon Started.")
 
 #############################################################################################
 # System and Program Arguments
